@@ -74,30 +74,33 @@ export default async function Home() {
   return getTrainSchedule(train);
   });
   const trains = (await Promise.all(trainsPromises)).flat().sort((t1, t2) => {
-    return t1.arrivalTime < t2.arrivalTime;
+    return t1.arrivalTime - t2.arrivalTime;
   });
 
   return (
-<Table>
-  <TableHeader>
+  <div classname="min-h-screen bg-neutral-100 grid place-items-center">
+        <div className="w-fit mx-auto bg-white border-4 border-black shadow-[8px_8px_0_0_#000]">
+<Table classname="w-fit mx-auto inline-table border-collapse">
+  <TableHeader classname="font-heading border-b-4 border-black">
     <TableRow>
       <TableHead className="w-[100px]">Station</TableHead>
-      <TableHead className="w-[100px]">Train</TableHead>
-      <TableHead>Direction</TableHead>
-      <TableHead>Status</TableHead>
+      <TableHead classname="border-r-2 border-black bg-yellow-300 text-black font-bold uppercase last:border-r-0">Train</TableHead>
+      <TableHead classname="border-r-2 border-black bg-yellow-300 text-black font-bold uppercase last:border-r-0">Direction</TableHead>
+      <TableHead classname="border-r-2 border-black bg-yellow-300 text-black font-bold uppercase last:border-r-0">Status</TableHead>
     </TableRow>
   </TableHeader>
   <TableBody>
     {trains.map((train) => (
-      <TableRow key={train.tripId}>
+      <TableRow key={train.id}>
         <TableCell className="font-base">{train.station}</TableCell>
-        <TableCell className="font-base">{train.name}</TableCell>
+        <TableCell>{train.name}</TableCell>
         <TableCell>{train.headsign}</TableCell>
         <TableCell>{train.arrivalTime} Minutes</TableCell>
       </TableRow>
     ))}
   </TableBody>
 </Table>
-
+</div>
+</div>
   );
 }
